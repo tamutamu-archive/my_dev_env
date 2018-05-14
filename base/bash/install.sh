@@ -23,4 +23,4 @@ set -e
 ln -s ${CURDIR}/../../.dotfiles/.bash.d ~/.bash.d
 
 # Bash not case-sensitive
-echo 'set completion-ignore-case on' >> /etc/inputrc
+sudo -u root bash -c "echo 'set completion-ignore-case on' >> /etc/inputrc"

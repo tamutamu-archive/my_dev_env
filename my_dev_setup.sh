@@ -15,9 +15,7 @@ function do_bashl(){
 }
 
 
-# install ~/.config
-do_bashl ${CURDIR}/user.config/install.sh
-
+do_bashl ${CURDIR}/home_bk_rst/install.sh
 do_bashl ${CURDIR}/git/config.sh
 do_bashl ${CURDIR}/terminator/install.sh
 do_bashl ${CURDIR}/meld/install.sh

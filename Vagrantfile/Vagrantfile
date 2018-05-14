@@ -40,15 +40,15 @@ Vagrant.configure("2") do |config|
   SHELL
 
   config.vm.provision "base", type:"shell", run: "never", inline: <<-SHELL
-    #rm -rf /opt/my_dev_settings
-    #cp -rf /my_dev_settings /opt/ && chmod 777 /opt/my_dev_settings/ -R
+    rm -rf /opt/my_dev_settings
+    cp -rf /my_dev_settings /opt/ && chmod 777 /opt/my_dev_settings/ -R
     cd /opt/my_dev_settings
     ./base_setup.sh base
   SHELL
 
   config.vm.provision "my_dev", type:"shell", run: "never", inline: <<-SHELL
-    #rm -rf /opt/my_dev_settings
-    #cp -rf /my_dev_settings /opt/ && chmod 777 /opt/my_dev_settings/ -R
+    rm -rf /opt/my_dev_settings
+    cp -rf /my_dev_settings /opt/ && chmod 777 /opt/my_dev_settings/ -R
     cd /opt/my_dev_settings
     ./my_dev_setup.sh
   SHELL
