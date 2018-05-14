@@ -1,0 +1,24 @@
+if [ -z "$PS1" ]; then
+   return;
+fi
+
+
+### Use percol instead of history command.
+_replace_by_history() {
+  local l=$(pyenv shell py27 && HISTTIMEFORMAT= history | tac | sed -e 's/^\s*[0-9]\+\s\+//' | percol --query "$READLINE_LINE")
+  READLINE_LINE="$l"
+  READLINE_POINT=${#l}
+}
+bind -x '"\C-r": _replace_by_history'
+bind    '"\C-xr": reverse-search-history'
+
+
+### git checkout
+_git_checkout() {
+  local selected_branch=$(git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads refs/remotes | \
+        perl -pne 's{^refs/(heads|remotes)/}{}' | \
+        percol --query "$LBUFFER")
+  READLINE_LINE="git checkout ${selected_branch}"
+  READLINE_POINT=${#READLINE_LINE}
+}
+bind -x '"\C-j": _git_checkout'

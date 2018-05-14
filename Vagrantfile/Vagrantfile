@@ -1,0 +1,75 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# config proxy.
+load "./proxy" if File.exist?("./proxy")
+
+
+Vagrant.configure("2") do |config|
+  
+  config.vm.box = "ubuntu/xenial64"
+  
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  config.vm.synced_folder "../", "/my_dev_settings"
+  
+  config.disksize.size = '23GB'
+  config.vbguest.auto_update = true
+
+  config.vm.provider "virtualbox" do |vb|
+     vb.gui = true
+
+     vb.customize [
+       "modifyvm", :id,
+       "--clipboard", "bidirectional",
+       "--memory", "1800",
+       "--vram", "64",
+       "--accelerate3d", "off",
+       "--accelerate2dvideo", "off",
+       "--hwvirtex", "on",
+       "--nestedpaging", "on",
+       "--largepages", "on",
+       "--ioapic", "on",
+       "--pae", "on",
+       "--uartmode1", "disconnected",
+     ]
+     
+     vb.customize ["storagectl", :id, "--name", "SCSI", "--hostiocache", "on"]
+
+  end
+
+  config.vm.provision "kernel", type:"shell", run: "never", inline: <<-SHELL
+    cp -rf /my_dev_settings /opt/ && chmod 777 /opt/my_dev_settings/ -R
+    cd /opt/my_dev_settings
+    ./base_setup.sh kernel
+  SHELL
+
+  config.vm.provision "base", type:"shell", run: "never", inline: <<-SHELL
+    rm -rf /opt/my_dev_settings
+    cp -rf /my_dev_settings /opt/ && chmod 777 /opt/my_dev_settings/ -R
+    cd /opt/my_dev_settings
+    ./base_setup.sh base
+  SHELL
+
+  config.vm.provision "my_dev", type:"shell", run: "never", inline: <<-SHELL
+    rm -rf /opt/my_dev_settings
+    cp -rf /my_dev_settings /opt/ && chmod 777 /opt/my_dev_settings/ -R
+    cd /opt/my_dev_settings
+    ./my_dev_setup.sh
+  SHELL
+
+end
+
+
+
+#file_to_disk = 'add-disk1.vdi'
+#unless File.exist?(file_to_disk)
+#  vb.customize [ "createhd", "--filename", file_to_disk, "--format", "VDI", "--variant", "Fixed", "--size", 2048 ] 
+#end
+#vb.customize ['storagectl', :id,'--name', 'SCSI','--portcount', 3]
+#vb.customize ['storageattach', :id, '--storagectl', 'SCSI', '--port', 3, '--type', 'hdd', '--medium', file_to_disk]
+
+#VBoxManage storagectl Vagrantfile_default_1526551960290_67891 --name "SATA Controller" --add sata --controller IntelAhci --portcount 2 --hostiocache off --bootable on
+#VBoxManage storagectl Vagrantfile_default_1526551960290_67891 --name "SATA Controller" --remove
+#VBoxManage storageattach Vagrantfile_default_1526551960290_67891 --storagectl "SATA Controller" --port 1 --type hdd --hostiocache --medium "C:\Users\tie027470\VirtualBox VMs\Vagrantfile_default_1526551960290_67891\ubuntu-xenial-16.04-cloudimg.vmdk"
+#VBoxManage storageattach Vagrantfile_default_1526551960290_67891 --storagectl "SATA Controller" --port 2 --type hdd --hostiocache --medium "C:\Users\tie027470\VirtualBox VMs\Vagrantfile_default_1526551960290_67891\ubuntu-xenial-16.04-cloudimg-configdrive.vmdk"

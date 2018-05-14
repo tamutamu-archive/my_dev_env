@@ -1,0 +1,16 @@
+**/tags
+.dotfiles/.vim/.netrwhist
+.dotfiles/.vim/pack/
+.dotfiles/.config/google-chrome
+.dotfiles/.config/pulse
+.dotfiles/.config/ranger/bookmarks
+.dotfiles/.config/ranger/history
+.dotfiles/.config/ranger/tagged
+
+.dotfiles/.config/fcitx/dbus
+
+Vagrantfile/.vagrant
+Vagrantfile/home/
+Vagrantfile/*.log
+
+/**/install-file/*
