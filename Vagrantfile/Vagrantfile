@@ -1,0 +1,56 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# config proxy.
+load "./proxy" if File.exist?("./proxy")
+
+
+Vagrant.configure("2") do |config|
+  
+  config.vm.box = "ubuntu/xenial64"
+  
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  config.vm.synced_folder "../", "/my_dev_settings"
+
+  config.vm.provider "virtualbox" do |vb|
+     vb.gui = true
+
+     vb.customize [
+       "modifyvm", :id,
+       "--clipboard", "bidirectional",
+       "--memory", "1024",
+       "--vram", "64",
+       "--accelerate3d", "off",
+       "--accelerate2dvideo", "off",
+       "--hwvirtex", "on",
+       "--nestedpaging", "on",
+       "--largepages", "on",
+       "--ioapic", "on",
+       "--pae", "on",
+       "--uartmode1", "disconnected",
+     ]
+  end
+
+
+  config.vm.provision "kernel", type:"shell", run: "never", inline: <<-SHELL
+    cp -rf /my_dev_settings /opt/ && chmod 777 /opt/my_dev_settings/ -R
+    cd /opt/my_dev_settings
+    ./base_setup.sh kernel
+  SHELL
+
+  config.vm.provision "base", type:"shell", run: "never", inline: <<-SHELL
+    #rm -rf /opt/my_dev_settings
+    #cp -rf /my_dev_settings /opt/ && chmod 777 /opt/my_dev_settings/ -R
+    cd /opt/my_dev_settings
+    ./base_setup.sh base
+  SHELL
+
+  config.vm.provision "my_dev", type:"shell", run: "never", inline: <<-SHELL
+    #rm -rf /opt/my_dev_settings
+    #cp -rf /my_dev_settings /opt/ && chmod 777 /opt/my_dev_settings/ -R
+    cd /opt/my_dev_settings
+    ./my_dev_setup.sh
+  SHELL
+
+end

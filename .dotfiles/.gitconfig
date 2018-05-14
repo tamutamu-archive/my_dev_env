@@ -1,0 +1,53 @@
+[user]
+	email = tamu.0.0.tamu@gmail.com
+	name = tamutamu
+[core]
+	autocrlf = False
+	quotepath = false
+	editor = vim -c \"set encoding=utf8\"
+[color]
+  ui = auto
+[diff]
+  tool = meld
+[difftool "meld"]
+  cmd = meld $LOCAL $REMOTE
+[merge]
+  tool = meld
+[mergetool "meld"]
+  cmd = meld $LOCAL $BASE $REMOTE --auto-merge
+[alias]
+	alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
+	b = branch -avv
+	bb = branch -v
+	ci = commit
+	co = checkout
+	ddt = difftool -d
+	di = diff
+	dc = diff --cached
+	del = branch -D
+	dnm = diff --name-only
+	f = fetch --prune
+	fs = !git f && git su
+	ignore = !([ ! -e .gitignore ] && touch .gitignore) | echo $1 >> .gitignore
+	info = remote show origin
+	al = log --graph -n 100 --all --pretty=format:'%C(yellow)%>(13)%h%Creset%>(2)%<(25)%s%Creset%C(cyan)%d%C(green)%an, %cd' --date=local
+	l = log --graph -n 100 --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(green)- %an, %cd%Creset'
+	ll = log --stat --abbrev-commit
+	ln = log --graph -n 100 --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(green)- %an, %cd%Creset' --name-status
+	lo = log --oneline -n 20 --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %cd'
+	la = log --oneline --decorate --graph --branches --tags --remotes
+	ls = log --stat --abbrev-commit -n 1
+	s = status --short --branch
+	st = status
+	su = submodule update
+	rv = remote -v
+	sb = show-branch --sha1-name
+	sbd = show-branch --sha1-name develop
+	windiff = difftool -y -d -t WinMerge
+	winmerge = mergetool -y -t WinMerge
+#[http]
+#	proxy = 
+#[https]
+#	proxy = 
+[credential]
+	helper = store
