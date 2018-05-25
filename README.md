@@ -15,3 +15,9 @@
     ## build my_dev from base, and take snapshot 'my_dev'.
     my_dev_provision.bat
     ```
+## Init setup.
+    ## load
+    ```
+    cd /opt/my_dev_settings/mate_desktop
+    ./load.sh
+    ```
