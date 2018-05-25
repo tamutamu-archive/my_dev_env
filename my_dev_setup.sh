@@ -30,6 +30,6 @@ do_bashl ${CURDIR}/ranger/install.sh
 do_bashl ${CURDIR}/rofi/install.sh
 do_bashl ${CURDIR}/copyq/install.sh
 do_bashl ${CURDIR}/keyremap/install.sh
-
+do_bashl ${CURDIR}/pyautogui/install.sh
 
 popd
