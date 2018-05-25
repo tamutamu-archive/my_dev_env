@@ -82,3 +82,5 @@
 "terminator -e 'ranger'"
   control+shift + at
 
+"mate-screenshot -a"
+  control+shift + Pause
