@@ -106,6 +106,7 @@ do_bashl ${CURDIR}/python/config.sh -v 2.7.14 -n py27
 do_bashl ${CURDIR}/python/config.sh -g -v 3.6.4 -n py364
 
 do_bashl ${CURDIR}/bash/install.sh
+do_bashl ${CURDIR}/ssh/install.sh
 do_bashl ${CURDIR}/apache/install.sh
 do_bashl ${CURDIR}/docker/install.sh
 do_bashl ${CURDIR}/java/jdk.sh
