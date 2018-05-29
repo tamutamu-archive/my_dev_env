@@ -53,5 +53,5 @@
 	helper = store
 
 [ghq]
-root = ~/ghq
-root = ~/go/src
+root = ~/.ghq
+root = ~/.local/go/src
