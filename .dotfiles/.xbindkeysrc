@@ -77,10 +77,10 @@
   control+shift + q
 
 "rofi -show run"
-  control+shift + 0
+  control+0
 
 "terminator -e 'ranger'"
-  control+shift + at
+  control+at
 
 "mate-screenshot -a"
-  control+shift + Pause
+  control+Pause
