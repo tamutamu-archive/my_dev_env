@@ -84,3 +84,6 @@
 
 "mate-screenshot -a"
   control+Pause
+
+"cd /opt/scripts/pyautogui/scripts/eclipse; python select_editor.py"
+  control+9
