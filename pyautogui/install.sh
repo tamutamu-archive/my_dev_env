@@ -10,6 +10,12 @@ pip install pynput
 pip install opencv-python
 
 
+### PyGObject
+pip install pkgconfig
+sudo apt -y istall libgirepository1.0-dev
+pip install PyGObject
+
+
 ## Install my scripts.
 mkdir /opt/scripts/pyautogui
 ln -s ${CURDIR}/scripts /opt/scripts/pyautogui/
