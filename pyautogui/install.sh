@@ -12,7 +12,7 @@ pip install opencv-python
 
 ### PyGObject
 pip install pkgconfig
-sudo apt -y istall libgirepository1.0-dev
+sudo apt -y install libgirepository1.0-dev
 pip install PyGObject
 
 
