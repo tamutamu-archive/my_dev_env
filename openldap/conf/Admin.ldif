@@ -1,0 +1,5 @@
+dn: cn=Admin,dc=palm7,dc=net
+objectClass: person
+cn: Admin
+sn: Admin
+userPassword: {SSHA}zwgpfXBo1pHIHWgZlVrDUuWeQaBaHxJx

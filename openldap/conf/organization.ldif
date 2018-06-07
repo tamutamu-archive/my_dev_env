@@ -1,0 +1,9 @@
+dn: dc=palm7,dc=net
+objectClass: dcObject
+objectClass: organization
+o: palm7
+dc: palm7
+
+dn: cn=Manager,dc=palm7,dc=net
+objectClass: organizationalRole
+cn: Manager

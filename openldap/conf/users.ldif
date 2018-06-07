@@ -1,0 +1,11 @@
+dn: uid=tamutamu,ou=dev,dc=palm7,dc=net
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: tamutamu
+cn: tamutamu
+sn: Tamura
+givenName: Naoki
+mail: tamu.0.0.tamu@gmail.com
+userPassword: {SSHA}jt2W69RAr55wNXBPCKTFr1zJQ39cLXKs

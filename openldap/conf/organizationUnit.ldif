@@ -1,0 +1,4 @@
+dn: ou=dev,dc=palm7,dc=net
+objectClass: organizationalUnit
+ou: dev
+

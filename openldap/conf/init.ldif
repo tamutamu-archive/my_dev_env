@@ -1,0 +1,12 @@
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+
+replace: olcRootDN
+olcRootDN: cn=Manager,dc=palm7,dc=net
+
+replace: olcSuffix
+olcSuffix: dc=palm7,dc=net
+
+replace: olcRootPW
+olcRootPW: {SSHA}WvBWhie7bMUEOjAMpcB6q5zCLrw2mT5a
+
