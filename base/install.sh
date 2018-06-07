@@ -92,6 +92,10 @@ apt -y install google-chrome-stable
 
 
 
+### firewalld
+apt -y install firewalld
+
+
 ### etc..
 
 # All install and config.
