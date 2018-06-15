@@ -1,0 +1,27 @@
+#!/bin/bash
+
+CURDIR=$(cd $(dirname $0); pwd)
+pushd ${CURDIR}
+
+command=$1
+
+case "$command" in
+  info)
+      sudo lxc info | less
+      exit 0
+      ;;
+
+  list)
+      sudo lxc list
+      exit 0
+      ;;
+
+  rmilist)
+      sudo lxc image list images: 'centos'
+      exit 0
+      ;;
+
+esac
+
+
+popd

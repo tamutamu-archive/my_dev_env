@@ -1,0 +1,84 @@
+#!/bin/bash
+
+CURDIR=$(cd $(dirname $0); pwd)
+pushd ${CURDIR} > /dev/null
+
+MACHINE_ROOT='/var/lib/lxd-machine'
+
+
+command=$1
+shift
+
+if [ "${command}" == "launch" ]; then
+  while [ "$1" != "" ]
+  do
+    ct_name=${1}
+    shift
+  done
+else
+  ct_name=$(cat machine.json | jq -rc ".machine.name")
+fi
+
+
+case "$command" in
+  launch)
+      if [ -z "${ct_name}" ]; then
+        ct_name=$(basename ${CURDIR})
+      fi
+      sudo lxc launch images:centos/7/amd64 ${ct_name} -c security.privileged=true
+      sudo bash -c 'lxc info ${ct_name} > info.log'
+      sudo bash -c "echo '{\"machine\": {\"name\": \"${ct_name}\"}}' | jq . > machine.json"
+
+      sleep 10
+      ${MACHINE_ROOT}/mng/base/setup.sh ${ct_name} maintain ${CURDIR}
+      exit 0
+      ;;
+
+  info)
+      sudo lxc info ${ct_name}
+      exit 0
+      ;;
+
+
+  enter)
+      sudo lxc exec ${ct_name} -- bash
+      exit 0
+      ;;
+
+  stop)
+      sudo lxc stop ${ct_name}
+      exit 0
+      ;;
+
+  del)
+      ./$(basename ${0}) stop
+      sudo lxc delete ${ct_name}
+      ${MACHINE_ROOT}/mng/release_dhcp.sh ${ct_name}
+      exit 0
+      ;;
+
+  logs)
+      exit 0
+      ;;
+
+  restart)
+      sudo lxc restart ${ct_name}
+      exit 0
+      ;;
+
+  start)
+      sudo lxc start ${ct_name}
+      exit 0
+      ;;
+
+  ssh)
+      ct_ip=$(${MACHINE_ROOT}/mng/get_ip.sh ${ct_name})
+      ssh -t -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./private_key \
+        maintain@${ct_ip}
+      exit 0
+      ;;
+
+esac
+
+
+popd > /dev/null

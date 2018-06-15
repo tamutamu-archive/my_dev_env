@@ -13,7 +13,7 @@ LXD_BRIDGE="lxdbr0"
 UPDATE_PROFILE="true"
 
 # Path to an extra dnsmasq configuration file
-LXD_CONFILE=""
+LXD_CONFILE="/etc/dnsmasq.d/lxd.conf"
 
 # DNS domain for the bridge
 LXD_DOMAIN="lxd"

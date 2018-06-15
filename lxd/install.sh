@@ -2,23 +2,30 @@
 set -euo pipefail
 
 CURDIR=$(cd $(dirname $0); pwd)
-cd ${CURDIR}
+pushd ${CURDIR}
 
 
-sudo apt -y install lxd
-sudo apt -y install zfsutils-linux
-
+sudo apt -y install -t xenial-backports lxd lxd-client
+sudo apt -y install zfsutils-linux jq
 
 sudo systemctl start lxd
 sudo systemctl enable lxd
 sudo lxd waitready
 
+cat conf/init.yml | sudo lxd init --preseed
 
-sudo lxd init --auto \
-     --storage-backend zfs \
-     --network-address 0.0.0.0 \
-     --network-port 8443 \
-     --trust-password password
 
-sudo cp -f ${CURDIR}/conf/lxd-bridge /etc/default/
+### Create machine dir.
+sudo mkdir -p /var/lib/lxd-machine/
+sudo cp -r ./conf /var/lib/lxd-machine/
+sudo lxc network set lxdbr0 raw.dnsmasq 'addn-hosts=/var/lib/lxd-machine/conf/lxd_hosts'
+sudo systemctl restart lxd
 
+sudo cp -r ./mng /var/lib/lxd-machine/
+sudo cp -r ./base /var/lib/lxd-machine/
+
+sudo chown lxd:lxd -R /var/lib/lxd-machine/
+sudo chmod o+rwx -R /var/lib/lxd-machine/
+
+
+popd

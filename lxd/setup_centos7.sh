@@ -1,3 +1,3 @@
 #!/bin/bash -eu
 
-./lxdctl launch
+./mng/lxdctl launch
