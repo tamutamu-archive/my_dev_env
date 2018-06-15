@@ -24,8 +24,8 @@ sudo systemctl restart lxd
 sudo cp -r ./mng /var/lib/lxd-machine/
 sudo cp -r ./base /var/lib/lxd-machine/
 
-sudo chown lxd:lxd -R /var/lib/lxd-machine/
-sudo chmod o+rwx -R /var/lib/lxd-machine/
+sudo chown lxd:lxd /var/lib/lxd-machine/ -R
+sudo chmod 777 /var/lib/lxd-machine/ -R
 
 
 popd

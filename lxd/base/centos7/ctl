@@ -29,8 +29,16 @@ case "$command" in
       sudo bash -c 'lxc info ${ct_name} > info.log'
       sudo bash -c "echo '{\"machine\": {\"name\": \"${ct_name}\"}}' | jq . > machine.json"
 
-      sleep 10
+      sleep 20
       ${MACHINE_ROOT}/mng/base/setup.sh ${ct_name} maintain ${CURDIR}
+
+      sudo lxc exec ${ct_name} -- bash -lc \
+          'mkdir -p /mnt/share && chmod 777 /mnt/share/ -R'
+
+      sudo mkdir -p ./share && sudo chmod 777 ./share
+      lxc config device add ${ct_name} share disk \
+          source=${CURDIR}/share path=/mnt/share
+
       exit 0
       ;;
 

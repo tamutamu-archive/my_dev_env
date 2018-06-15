@@ -18,20 +18,20 @@ sudo lxc exec ${CT_NAME} -- bash -lc \
     ". .bash_profile && env | grep -ie http_proxy= -ie https_proxy= >> /etc/environment"
 
 
+### yum update, system restart.
+sudo lxc exec ${CT_NAME} -- bash -lc "yum clean all && yum -y update"
+sudo lxc restart ${CT_NAME}
+
+# TODO wait network ready..
+sleep 15
+
+
 ### Install sshd and setting, autostart.
 sudo lxc exec ${CT_NAME} -- bash -lc \
     'yum -y install openssh-server && systemctl enable sshd && systemctl start sshd'
 sudo lxc exec ${CT_NAME} -- bash -lc \
     'sed -ie "s/^#\(UseDNS\).*/\1 no/" /etc/ssh/sshd_config && \
        systemctl restart sshd && systemctl enable sshd'
-
-
-### yum update, system restart.
-sudo lxc exec ${CT_NAME} -- bash -lc "yum clean all && yum -y update"
-sudo lxc restart ${CT_NAME}
-
-# TODO wait network ready..
-sleep 10
 
 
 ### Setup maintain user.
