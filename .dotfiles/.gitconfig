@@ -5,6 +5,7 @@
 	autocrlf = False
 	quotepath = false
 	editor = vim -c \"set encoding=utf8\"
+	filemode = true
 [color]
   ui = auto
 [diff]
