@@ -6,7 +6,7 @@ pushd ${CURDIR}
 
 
 sudo apt -y install -t xenial-backports lxd lxd-client
-sudo apt -y install zfsutils-linux jq
+sudo apt -y install zfsutils-linux jq dnsmasq-utils
 
 sudo systemctl start lxd
 sudo systemctl enable lxd
