@@ -15,19 +15,14 @@ sudo lxd waitready
 cat conf/init.yml | sudo lxd init --preseed
 
 
-### Setup firewalld MASQUERADE config.
-sudo firewall-cmd --direct --add-rule \
-  ipv4 nat -A POSTROUTING -o lxdbr0 -j MASQUERADE
-
-
 ### Create machine dir.
 sudo mkdir -p /var/lib/lxd-machine/
-sudo cp -r ./conf /var/lib/lxd-machine/
+sudo ln -s ${CURDIR}/conf /var/lib/lxd-machine/conf
 sudo lxc network set lxdbr0 raw.dnsmasq 'addn-hosts=/var/lib/lxd-machine/conf/lxd_hosts'
 sudo systemctl restart lxd
 
-sudo cp -r ./mng /var/lib/lxd-machine/
-sudo cp -r ./base /var/lib/lxd-machine/
+sudo ln -s ${CURDIR}/mng /var/lib/lxd-machine/mng
+sudo ln -s ${CURDIR}/base /var/lib/lxd-machine/base
 
 sudo chown lxd:lxd /var/lib/lxd-machine/ -R
 sudo chmod 777 /var/lib/lxd-machine/ -R
