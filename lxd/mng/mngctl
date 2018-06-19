@@ -16,7 +16,12 @@ case "$command" in
       exit 0
       ;;
 
-  rmilist)
+  imglist)
+      sudo lxc image list
+      exit 0
+      ;;
+
+  rmimglist)
       sudo lxc image list images: 'centos'
       exit 0
       ;;
