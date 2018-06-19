@@ -26,10 +26,24 @@ sleep 15
 
 
 ### Config lang and timezone.
+sudo lxc exec ${CT_NAME} -- bash -lc \
+  "mkdir -p /etc/systemd/system/systemd-localed.service.d/ \
+   && cat << EOT >> /etc/systemd/system/systemd-localed.service.d/override.conf
+[Service]
+PrivateNetwork=no
+EOT"
 
-# TODO
-# sudo lxc exec ${CT_NAME} -- bash -lc "localectl set-locale LANG=ja_JP.UTF-8"
+sudo lxc exec ${CT_NAME} -- bash -lc \
+  "mkdir -p /etc/systemd/system/systemd-hostnamed.service.d/ \
+   && cat << EOT >> /etc/systemd/system/systemd-hostnamed.service.d/override.conf
+[Service]
+PrivateNetwork=no
+EOT"
 
+sudo lxc exec ${CT_NAME} -- bash -lc \
+  "systemctl restart systemd-hostnamed && systemctl restart systemd-localed"
+
+sudo lxc exec ${CT_NAME} -- bash -lc "localectl set-locale LANG=ja_JP.UTF-8"
 sudo lxc exec ${CT_NAME} -- bash -lc "timedatectl set-timezone Asia/Tokyo"
 
 ### Install sshd and setting, autostart.
