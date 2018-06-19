@@ -1,9 +1,10 @@
 #!/bin/bash
 
 CURDIR=$(cd $(dirname $0); pwd)
-pushd ${CURDIR}
+pushd ${CURDIR} > /dev/null
 
 command=$1
+shift
 
 case "$command" in
   info)
@@ -17,16 +18,26 @@ case "$command" in
       ;;
 
   imglist)
-      sudo lxc image list
-      exit 0
-      ;;
+      while getopts ":rn:" OPT
+      do
+        case $OPT in
+          "r") REMOTE=true
+               ;;
+          "n") IMG_NAME="$OPTARG"
+               ;;
+          esac
+      done
 
-  rmimglist)
-      sudo lxc image list images: 'centos'
+      if [ ${REMOTE} ]; then
+        sudo lxc image list images: ${IMG_NAME}
+      else
+        sudo lxc image list local: ${IMG_NAME}
+      fi
+
       exit 0
       ;;
 
 esac
 
 
-popd
+popd > /dev/null
