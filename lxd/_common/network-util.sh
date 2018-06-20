@@ -27,7 +27,7 @@ all_remove_portfd() {
   while read portfd
   do
     add_remove_portfd "remove" $1 ${portfd}
-  done < <(cat .conf/machine.json | jq -r '.machine."port-forward" | .[]')
+  done < <(cat .conf/machine.json | jq -r 'select(.machine."port-forward" !=null) | .machine."port-forward" | .[]')
 
 }
 
