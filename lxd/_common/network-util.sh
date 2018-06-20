@@ -1,5 +1,5 @@
 ### Const value.
-port_rule_tmpl="ipv4 nat PREROUTING 0 -p tcp -m tcp --dport #SPORT# -j DNAT --to-destination #CT_IP#:#DPORT#"
+port_rule_tmpl="ipv4 nat PREROUTING 0 -i #DEF_IF# -p tcp -m tcp --dport #SPORT# -j DNAT --to-destination #CT_IP#:#DPORT#"
 DHCP_LEASE=/var/lib/lxd/networks/lxdbr0/dnsmasq.leases
 
 
@@ -38,7 +38,10 @@ add_remove_portfd(){
   sport=$(echo $3 | cut -d ":" -f 1)
   dport=$(echo $3 | cut -d ":" -f 2)
 
-  portfd_rule=$(echo ${port_rule_tmpl} | sed -e "s@#SPORT#@${sport}@g" -e "s@#DPORT#@${dport}@g" -e "s@#CT_IP#@${ct_ip}@g")
+  default_if=$(route | awk '{if($1 == "default") print $8;}')
+
+  portfd_rule=$(echo ${port_rule_tmpl} | \
+                  sed -e "s@#DEF_IF#@${default_if}@g" -e "s@#SPORT#@${sport}@g" -e "s@#DPORT#@${dport}@g" -e "s@#CT_IP#@${ct_ip}@g")
 
   sudo firewall-cmd --direct --${action}-rule ${portfd_rule} -m comment --comment "my_lxd_portforward" > /dev/null
   sudo firewall-cmd --permanent --direct --${action}-rule ${portfd_rule} -m comment --comment "my_lxd_portforward" > /dev/null
