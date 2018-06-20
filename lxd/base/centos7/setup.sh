@@ -61,8 +61,8 @@ sudo lxc exec ${CT_NAME} -- bash -lc "sudo -iu ${MAINTAIN_USER} bash -c 'mkdir -
 
 sudo lxc exec ${CT_NAME} -- bash -lc \
     "sudo -iu ${MAINTAIN_USER} bash -c 'ssh-keygen -f ~/.ssh/private_key -t rsa -b 4096 -C \"${MAINTAIN_USER} key pair\" -q -N \"\" '"
-sudo lxc file pull ${CT_NAME}/home/${MAINTAIN_USER}/.ssh/private_key ${CURDIR}/
-sudo chmod o+r ${CURDIR}/private_key
+sudo lxc file pull ${CT_NAME}/home/${MAINTAIN_USER}/.ssh/private_key ${CURDIR}/.conf/
+sudo chmod o+r ${CURDIR}/.conf/private_key
 sudo lxc exec ${CT_NAME} -- bash -lc 'rm -f /home/${MAINTAIN_USER}/.ssh/private_key'
 
 sudo lxc exec ${CT_NAME} -- bash -lc \
