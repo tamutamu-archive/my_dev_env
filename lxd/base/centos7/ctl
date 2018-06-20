@@ -1,45 +1,26 @@
 #!/bin/bash
 
+
+IMG_NAME="images:centos/7/amd64"
+
 MACHINE_ROOT='/var/lib/lxd-machine'
 
 CURDIR=$(cd $(dirname $0); pwd)
 pushd ${CURDIR} > /dev/null
 
-. ${MACHINE_ROOT}/mng/base/base-launcher.sh
+command=$1
+shift
 
-
-if [ "${command}" == "launch" ]; then
-  while [ "$1" != "" ]
-  do
-    ct_name=${1}
-    shift
-  done
-else
-  ct_name=$(cat machine.json | jq -rc ".machine.name")
-fi
-
-
+### my command
 case "$command" in
-  launch)
-      if [ -z "${ct_name}" ]; then
-        ct_name=$(basename ${CURDIR})
-      fi
-      sudo lxc launch images:centos/7/amd64 ${ct_name} -c security.privileged=true
-      sudo bash -c 'sudo lxc info ${ct_name} > info.log'
-      sudo bash -c "echo '{\"machine\": {\"name\": \"${ct_name}\"}}' | jq . > machine.json"
-
-      sleep 20
-      ${MACHINE_ROOT}/mng/base/centos7/setup.sh ${ct_name} maintain ${CURDIR}
-
-      sudo lxc exec ${ct_name} -- bash -lc \
-          'mkdir -p /mnt/share && chmod 777 /mnt/share/ -R'
-
-      sudo mkdir -p ./share && sudo chmod 777 ./share
-      sudo lxc config device add ${ct_name} share disk \
-          source=${CURDIR}/share path=/mnt/share
-
-      exit 0
-      ;;
+  #cmd)
+  #    do command...
+  #    exit 0
+  #    ;;
 esac
+
+
+### common command
+. ${MACHINE_ROOT}/_common/common-launcher.sh
 
 popd > /dev/null

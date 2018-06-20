@@ -5,8 +5,7 @@ pushd ${CURDIR}
 
 
 CT_NAME=${1}
-MAINTAIN_USER=${2}
-CURDIR=${3}
+MAINTAIN_USER=maintain
 
 ### Setup http proxy.
 proxy_tmp=$(mktemp)
@@ -18,7 +17,7 @@ sudo lxc exec ${CT_NAME} -- bash -lc \
     ". .bash_profile && env | grep -ie http_proxy= -ie https_proxy= >> /etc/environment"
 
 ### yum update, system restart.
-sudo lxc exec ${CT_NAME} -- bash -lc "env && yum clean all && yum -y update"
+sudo lxc exec ${CT_NAME} -- bash -lc "yum clean all && yum -y update"
 sudo lxc restart ${CT_NAME}
 
 # TODO wait network ready..
@@ -71,6 +70,11 @@ sudo lxc exec ${CT_NAME} -- bash -lc \
           'mv ~/.ssh/{private_key.pub,authorized_keys} \
                  && chmod 600 ~/.ssh/authorized_keys' \
                    "
+
+
+sudo lxc exec ${CT_NAME} -- bash -lc \
+  'yum -y groupinstall "Development Tools" && \
+   yum -y install wget zip unzip vim'
 
 popd
 

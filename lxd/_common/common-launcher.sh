@@ -1,10 +1,7 @@
 #!/bin/bash
 
-. ${MACHINE_ROOT}/mng/network-util.sh
+. ${MACHINE_ROOT}/_common/network-util.sh
 
-
-command=$1
-shift
 
 if [ "${command}" == "launch" ]; then
   while [ "$1" != "" ]
@@ -13,7 +10,7 @@ if [ "${command}" == "launch" ]; then
     shift
   done
 else
-  ct_name=$(cat machine.json | jq -rc ".machine.name")
+  ct_name=$(cat ./.conf/machine.json | jq -rc ".machine.name")
 fi
 
 if [ "${command}" == "ssh-keygen" ]; then
@@ -34,6 +31,28 @@ fi
 
 
 case "$command" in
+  launch)
+      if [ -z "${ct_name}" ]; then
+        ct_name=$(basename ${CURDIR})
+      fi
+      sudo lxc launch ${IMG_NAME} ${ct_name} -c security.privileged=true
+      mkdir -p ./.conf
+      sudo bash -c 'lxc info ${ct_name} > ./.conf/info.log'
+      sudo bash -c "echo '{\"machine\": {\"name\": \"${ct_name}\"}}' | jq . > ./.conf/machine.json"
+
+      sleep 20
+      ./setup.sh ${ct_name}
+
+      sudo lxc exec ${ct_name} -- bash -lc \
+          'mkdir -p /mnt/share && chmod 777 /mnt/share/ -R'
+
+      sudo mkdir -p ./share && sudo chmod 777 ./share
+      sudo lxc config device add ${ct_name} share disk \
+          source=${CURDIR}/share path=/mnt/share
+
+      exit 0
+      ;;
+
   info)
       sudo lxc info ${ct_name}
       exit 0
@@ -51,6 +70,8 @@ case "$command" in
       ;;
 
   del)
+      ct_ip=$(get_IP ${ct_name})
+      all_remove_portfd ${ct_ip}
       ./$(basename ${0}) stop
       sudo lxc delete ${ct_name}
       release_dhcp ${ct_name}
@@ -73,7 +94,7 @@ case "$command" in
 
   ssh)
       ct_ip=$(get_IP ${ct_name})
-      ssh -t -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./private_key \
+      ssh -t -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./.conf/private_key \
         maintain@${ct_ip}
       exit 0
       ;;
@@ -81,8 +102,8 @@ case "$command" in
   ssh-keygen)
       ct_ip=$(get_IP ${ct_name})
 
-      sudo ssh-keygen -f ./private_key -t rsa -b 4096 -C "${user_name} key pair" -q -N ""
-      sudo lxc file push ./private_key.pub ${ct_name}/home/${user_name}/.ssh/authorized_keys
+      sudo ssh-keygen -f ./.conf/private_key -t rsa -b 4096 -C "${user_name} key pair" -q -N ""
+      sudo lxc file push ./.conf/private_key.pub ${ct_name}/home/${user_name}/.ssh/authorized_keys
       sudo lxc exec ${ct_name} -- bash -lc \
         "chmod 600 /home/${user_name}/.ssh/authorized_keys; chown ${user_name}:${user_name} /home/${user_name}/.ssh/authorized_keys"
 

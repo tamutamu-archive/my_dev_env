@@ -14,3 +14,5 @@ Vagrantfile/home/
 Vagrantfile/*.log
 
 /**/install-file/*
+
+lxd/base/**/.conf
