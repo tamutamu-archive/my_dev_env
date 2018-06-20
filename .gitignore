@@ -16,3 +16,4 @@ Vagrantfile/*.log
 /**/install-file/*
 
 lxd/base/**/.conf
+lxd/base/**/share

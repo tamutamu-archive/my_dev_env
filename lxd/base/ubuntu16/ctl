@@ -1,0 +1,26 @@
+#!/bin/bash
+
+
+IMG_NAME="ubuntu:16.10"
+
+MACHINE_ROOT='/var/lib/lxd-machine'
+
+CURDIR=$(cd $(dirname $0); pwd)
+pushd ${CURDIR} > /dev/null
+
+command=$1
+shift
+
+### my command
+case "$command" in
+  #cmd)
+  #    do command...
+  #    exit 0
+  #    ;;
+esac
+
+
+### common command
+. ${MACHINE_ROOT}/_common/common-launcher.sh
+
+popd > /dev/null
