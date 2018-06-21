@@ -11,7 +11,7 @@ MAINTAIN_USER=maintain
 proxy_tmp=$(mktemp)
 env | grep -ie 'http_proxy' -ie 'https_proxy' -ie 'no_proxy' | sed -e 's/^/export /' > ${proxy_tmp}
 sudo lxc file push ${proxy_tmp} ${CT_NAME}/etc/profile.d/proxy.sh
-sudo lxc exec ${CT_NAME} -- bash -lc "chown root:root /etc/profile.d/proxy.sh && chmod +x /etc/profile.d/proxy.sh"
+sudo lxc exec ${CT_NAME} -- bash -lc "chown root:root /etc/profile.d/proxy.sh && chmod o+rx /etc/profile.d/proxy.sh"
 rm -f ${proxy_tmp}
 
 sudo lxc exec ${CT_NAME} -- bash -lc \
@@ -46,7 +46,7 @@ EOT"
 sudo lxc exec ${CT_NAME} -- bash -lc \
   "systemctl restart systemd-hostnamed && systemctl restart systemd-localed"
 
-sudo lxc exec ${CT_NAME} -- bash -lc "localectl set-locale LANG=ja_JP.UTF-8"
+sudo lxc exec ${CT_NAME} -- bash -lc "locale-gen ja_JP.UTF-8 && localectl set-locale LANG=ja_JP.UTF-8"
 sudo lxc exec ${CT_NAME} -- bash -lc "timedatectl set-timezone Asia/Tokyo"
 
 ### Install sshd and setting, autostart.
@@ -56,7 +56,7 @@ sudo lxc exec ${CT_NAME} -- bash -lc \
 
 
 ### Setup maintain user.
-sudo lxc exec ${CT_NAME} -- bash -lc "useradd -m ${MAINTAIN_USER}"
+sudo lxc exec ${CT_NAME} -- bash -lc "useradd -m ${MAINTAIN_USER} -s /bin/bash"
 sudo lxc exec ${CT_NAME} -- bash -lc "echo \"${MAINTAIN_USER} ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/${MAINTAIN_USER}"
 sudo lxc exec ${CT_NAME} -- bash -lc "sudo -iu ${MAINTAIN_USER} bash -c 'mkdir -p ~/.ssh/ && chmod 700 ~/.ssh/'"
 
