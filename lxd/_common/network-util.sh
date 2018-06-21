@@ -6,7 +6,7 @@ DHCP_LEASE=/var/lib/lxd/networks/lxdbr0/dnsmasq.leases
 ### Get container IP.
 get_IP(){
 
-  ct_name=$1
+  local ct_name=$1
 
   sudo lxc list "^${ct_name}$" -c 4 | awk '!/IPV4/{ if ( $2 != "" ) print $2}'
 }
@@ -33,14 +33,14 @@ all_remove_portfd() {
 
 add_remove_portfd(){
 
-  action=$1
-  ct_ip=$2
-  sport=$(echo $3 | cut -d ":" -f 1)
-  dport=$(echo $3 | cut -d ":" -f 2)
+  local action=$1
+  local ct_ip=$2
+  local sport=$(echo $3 | cut -d ":" -f 1)
+  local dport=$(echo $3 | cut -d ":" -f 2)
 
-  default_if=$(route | awk '{if($1 == "default") print $8;}')
+  local default_if=$(route | awk '{if($1 == "default") print $8;}')
 
-  portfd_rule=$(echo ${port_rule_tmpl} | \
+  local portfd_rule=$(echo ${port_rule_tmpl} | \
                   sed -e "s@#DEF_IF#@${default_if}@g" -e "s@#SPORT#@${sport}@g" -e "s@#DPORT#@${dport}@g" -e "s@#CT_IP#@${ct_ip}@g")
 
   sudo firewall-cmd --direct --${action}-rule ${portfd_rule} -m comment --comment "my_lxd_portforward" > /dev/null
@@ -58,7 +58,7 @@ add_remove_portfd(){
 ### Release dhcp ip of container.
 release_dhcp(){
 
-  ct_name=${1}
+  local ct_name=${1}
 
   awk -v cntnm=${ct_name} -v interface=lxdbr0 '
   {
