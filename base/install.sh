@@ -122,5 +122,7 @@ do_bashl ${CURDIR}/ruby/install.sh
 do_bashl ${CURDIR}/swap/install.sh
 do_bashl ${CURDIR}/vbox_guest/rebuild.sh
 
+do_bashl ${CURDIR}/local_share/install.sh
+
 
 rm -f /etc/apt/sources.list.d/google-chrome.list*
