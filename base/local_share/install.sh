@@ -6,6 +6,7 @@ pushd ${CURDIR}
 
 
 ### Desktop launcher.
+mkdir -p ~/.local/share
 ln -s ${MY_DEV_BASE_PATH}/.dotfiles/share/applications/ ~/.local/share/
 
 
