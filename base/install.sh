@@ -101,7 +101,7 @@ apt -y install firewalld
 # All install and config.
 function do_bashl(){
   echo $*
-  su ${DEV_USER} -c "bash -i -l $*"
+  su ${DEV_USER} -c "bash -l $*"
 }
 
 # python
