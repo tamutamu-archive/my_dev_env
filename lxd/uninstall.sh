@@ -1,11 +1,6 @@
 #!/bin/bash
 
-sudo systemctl stop lxd
-sudo apt -y remove lxd
-sudo rm -rf /var/lib/lxd
-sudo rm -rf ~/.config/lxc
-sudo apt -y purge lxd
-sudo apt -y autoremove lxd*
-
+sudo snap remove lxd
+sudo rm -rf /var/lxd-machine/
 
 echo "Need to os restart."
