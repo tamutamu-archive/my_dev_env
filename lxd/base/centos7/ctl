@@ -1,9 +1,10 @@
 #!/bin/bash
 
+LXD_COMMON='/var/snap/lxd/common'
+. ${LXD_COMMON}/_conf/global.conf
+
 
 IMG_NAME="images:centos/7/amd64"
-
-MACHINE_ROOT='/var/lib/lxd-machine'
 
 CURDIR=$(cd $(dirname $0); pwd)
 pushd ${CURDIR} > /dev/null
@@ -21,6 +22,6 @@ esac
 
 
 ### common command
-. ${MACHINE_ROOT}/_common/common-launcher.sh
+. ${LXD_COMMON}/_common/common-launcher.sh
 
 popd > /dev/null

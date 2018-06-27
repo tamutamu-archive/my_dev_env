@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ${MACHINE_ROOT}/_common/network-util.sh
+. ${LXD_COMMON}/_common/network-util.sh
 
 
 if [ "${command}" == "launch" ]; then
@@ -74,7 +74,6 @@ case "$command" in
       all_remove_portfd ${ct_ip}
       ./$(basename ${0}) stop
       sudo lxc delete ${ct_name}
-      release_dhcp ${ct_name}
       exit 0
       ;;
 
