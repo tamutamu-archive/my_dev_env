@@ -4,6 +4,7 @@
 
 .dotfiles/fcitx/dbus
 .dotfiles/fcitx/clipboard
+.dotfiles/fcitx/profile
 
 Vagrantfile/.vagrant
 Vagrantfile/home/
