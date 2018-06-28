@@ -37,4 +37,26 @@ sudo chown lxd:lxd /var/lxd-machine/ -R
 sudo chmod 777 /var/lxd-machine/ -R
 
 
+cat <<EOT | sudo tee -a /etc/security/limits.conf > /dev/null
+
+*               soft    nofile          1048576
+*               hard    nofile          1048576
+root            soft    nofile          1048576
+root            hard    nofile          1048576
+*               soft    memlock         unlimited
+*               hard    memlock         unlimited
+EOT
+
+
+cat <<EOT | sudo tee -a /etc/sysctl.conf > /dev/null
+
+fs.inotify.max_queued_events = 1048576
+fs.inotify.max_user_instances = 1048576
+fs.inotify.max_user_watches = 1048576
+vm.max_map_count = 262144
+EOT
+
+
+echo "Please restart system!!"
+
 popd
