@@ -1,6 +1,7 @@
 #!/bin/bash
 
 . ${LXD_COMMON}/_common/network-util.sh
+. ${LXD_COMMON}/_common/ssh-util.sh
 
 
 if [ "${command}" == "launch" ]; then
@@ -13,7 +14,7 @@ else
   ct_name=$(cat ./.conf/machine.json | jq -rc ".machine.name")
 fi
 
-if [ "${command}" == "ssh-keygen" ]; then
+if [ "${command}" == "ssh-keygen" -o "${command}" == "ssh" ]; then
   while [ "$1" != "" ]
   do
     user_name=${1}
@@ -40,8 +41,10 @@ case "$command" in
       sudo bash -c 'lxc info ${ct_name} > ./.conf/info.log'
       sudo bash -c "echo '{\"machine\": {\"name\": \"${ct_name}\"}}' | jq . > ./.conf/machine.json"
 
-      sleep 20
-      ./setup.sh ${ct_name}
+      sleep 7
+      if [ -e ./setup.sh ];then
+        ./setup.sh ${ct_name}
+      fi
 
       sudo lxc exec ${ct_name} -- bash -lc \
           'mkdir -p /mnt/share && chmod 777 /mnt/share/ -R'
@@ -74,6 +77,7 @@ case "$command" in
       all_remove_portfd ${ct_ip}
       ./$(basename ${0}) stop
       sudo lxc delete ${ct_name}
+      release_dhcp ${ct_name}
       exit 0
       ;;
 
@@ -94,17 +98,12 @@ case "$command" in
   ssh)
       ct_ip=$(get_IP ${ct_name})
       ssh -t -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./.conf/private_key \
-        maintain@${ct_ip}
+        ${user_name}@${ct_ip}
       exit 0
       ;;
 
   ssh-keygen)
-      ct_ip=$(get_IP ${ct_name})
-
-      sudo ssh-keygen -f ./.conf/private_key -t rsa -b 4096 -C "${user_name} key pair" -q -N ""
-      sudo lxc file push ./.conf/private_key.pub ${ct_name}/home/${user_name}/.ssh/authorized_keys
-      sudo lxc exec ${ct_name} -- bash -lc \
-        "chmod 600 /home/${user_name}/.ssh/authorized_keys; chown ${user_name}:${user_name} /home/${user_name}/.ssh/authorized_keys"
+      gen_sshkey ${ct_name} ${user_name} ${USER}
 
       exit 0
       ;;

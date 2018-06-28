@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LXD_COMMON='/var/snap/lxd/common'
+export LXD_COMMON='/var/snap/lxd/common'
 . ${LXD_COMMON}/_conf/global.conf
 
 

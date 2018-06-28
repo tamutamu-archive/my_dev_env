@@ -1,6 +1,6 @@
 ### Const value.
 port_rule_tmpl="ipv4 nat PREROUTING 0 -i #DEF_IF# -p tcp -m tcp --dport #SPORT# -j DNAT --to-destination #CT_IP#:#DPORT#"
-DHCP_LEASE=${LXD_ROOT}/networks/lxdbr0/dnsmasq.leases
+DHCP_LEASE=${LXD_COMMON}/lxd/networks/lxdbr0/dnsmasq.leases
 
 
 ### Get container IP.
@@ -68,5 +68,5 @@ release_dhcp(){
   }
   ' ${DHCP_LEASE}
 
-  sudo kill -HUP `cat ${LXD_ROOT}/networks/lxdbr0/dnsmasq.pid`
+  sudo kill -HUP `cat ${LXD_COMMON}/lxd/networks/lxdbr0/dnsmasq.pid`
 }
