@@ -4,6 +4,7 @@ gen_sshkey(){
   local user_name=${2}
   local connect_user=${3}	
 
+  sudo rm -f ./.conf/private_key
   sudo ssh-keygen -f ./.conf/private_key -t rsa -b 4096 -C "${user_name} key pair" -q -N ""
   sudo chown ${connect_user}:${connect_user} ./.conf/private_key
 
