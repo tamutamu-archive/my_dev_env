@@ -17,7 +17,7 @@ sudo lxc file push ${proxy_tmp} ${ct_name}/etc/profile.d/proxy.sh
 rm -f ${proxy_tmp}
 
 sudo lxc exec ${ct_name} -- bash -lc \
-    ". .bash_profile && env | grep -ie http_proxy= -ie https_proxy= >> /etc/environment"
+    ". .bash_profile && env | grep -ie http_proxy= -ie https_proxy= -ie no_proxy= >> /etc/environment"
 
 ### yum update, system restart.
 sudo lxc exec ${ct_name} -- bash -lc "yum clean all && yum -y update"
