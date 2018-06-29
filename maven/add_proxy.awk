@@ -14,7 +14,9 @@ BEGIN{
     printf "        <port>"
     printf PROXY_PORT
     print "</port>"
-    print "        <nonProxyHosts></nonProxyHosts>"
+    printf "        <nonProxyHosts>"
+    printf NON_PROXY_HOSTS
+    print "</nonProxyHosts>"
     print "      </proxy>"
     print "      <proxy>"
     print "        <active>true</active>"
@@ -26,7 +28,9 @@ BEGIN{
     printf PROXY_PORT
     print "</port>"
     print "        <protocol>https</protocol>"
-    print "        <nonProxyHosts></nonProxyHosts>"
+    printf "        <nonProxyHosts>"
+    printf NON_PROXY_HOSTS
+    print "</nonProxyHosts>"
     print "      </proxy>"
 
   }

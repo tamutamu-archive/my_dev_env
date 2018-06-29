@@ -4,6 +4,7 @@ set -euo pipefail
 CURDIR=$(cd $(dirname $0); pwd)
 
 declare -xr MY_DEV_BASE_PATH=${CURDIR}
+export DEBIAN_FRONTEND=noninteractive
 
 pushd ${CURDIR}
 
