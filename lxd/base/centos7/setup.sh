@@ -1,6 +1,8 @@
 #!/bin/bash -eu
 
 
+. ./conf/var.conf
+
 . ${LXD_COMMON}/_common/ssh-util.sh
 
 
@@ -11,13 +13,20 @@ pushd ${CURDIR}
 ct_name=${1}
 
 ### Setup http proxy.
-proxy_tmp=$(mktemp)
-env | grep -ie 'http_proxy' -ie 'https_proxy' -ie 'no_proxy' | sed -e 's/^/export /' > ${proxy_tmp}
-sudo lxc file push ${proxy_tmp} ${ct_name}/etc/profile.d/proxy.sh
-rm -f ${proxy_tmp}
+if [ ! -z "${HTTP_PROXY_HOST}" ];then
 
-sudo lxc exec ${ct_name} -- bash -lc \
-    ". .bash_profile && env | grep -ie http_proxy= -ie https_proxy= -ie no_proxy= >> /etc/environment"
+  sudo lxc exec ${ct_name} -- bash -lc \
+    "cat << 'EOT' >> /etc/profile.d/proxy.sh
+export http_proxy=http://${HTTP_PROXY_HOST}:${HTTP_PROXY_PORT}
+export HTTP_PROXY=\${http_proxy}
+export https_proxy=\${http_proxy}
+export HTTPS_PROXY=\${http_proxy}
+EOT"
+
+  sudo lxc exec ${ct_name} -- bash -lc \
+      ". .bash_profile && env | grep -ie http_proxy= -ie https_proxy= -ie no_proxy= >> /etc/environment"
+fi
+
 
 ### yum update, system restart.
 sudo lxc exec ${ct_name} -- bash -lc "yum clean all && yum -y update"
