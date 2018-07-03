@@ -5,6 +5,12 @@ CURDIR=$(cd $(dirname $0); pwd)
 pushd ${CURDIR}
 
 
+# Remove lxd.
+sudo apt -y purge lxd*
+sudo apt -y autoremove
+sudo apt -y autoclean
+
+
 sudo apt -y install zfsutils-linux jq dnsmasq-utils firewalld
 sudo snap install lxd --channel=3.0
 sudo lxd waitready
