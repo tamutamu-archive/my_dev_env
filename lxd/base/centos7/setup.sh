@@ -21,6 +21,8 @@ export http_proxy=http://${HTTP_PROXY_HOST}:${HTTP_PROXY_PORT}
 export HTTP_PROXY=\${http_proxy}
 export https_proxy=\${http_proxy}
 export HTTPS_PROXY=\${http_proxy}
+export no_proxy=${HTTP_NO_PROXY}
+export NO_PROXY=\${no_proxy}
 EOT"
 
   sudo lxc exec ${ct_name} -- bash -lc \
@@ -29,6 +31,10 @@ fi
 
 
 ### yum update, system restart.
+sudo lxc exec ${ct_name} -- bash -lc \
+  "sed -i.bk -e 's/^mirrorlist=/#mirrorlist=/g' \
+             -e 's/#baseurl=/baseurl=/g' /etc/yum.repos.d/CentOS-Base.repo"
+
 sudo lxc exec ${ct_name} -- bash -lc "yum clean all && yum -y update"
 sudo lxc restart ${ct_name}
 
