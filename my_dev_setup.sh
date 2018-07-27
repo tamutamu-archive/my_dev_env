@@ -38,3 +38,7 @@ do_bashl ${CURDIR}/keyremap/install.sh
 do_bashl ${CURDIR}/pyautogui/install.sh
 
 popd
+
+
+apt autoremove
+apt clean
