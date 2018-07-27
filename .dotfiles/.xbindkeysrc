@@ -87,3 +87,6 @@
 
 "cd /opt/scripts/pyautogui/scripts/eclipse; python select_editor.py"
   control+9
+
+"cd /opt/scripts/pyautogui/scripts/eclipse; python vrapper_cmd.py"
+  control+shift+k
