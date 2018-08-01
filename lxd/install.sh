@@ -73,7 +73,7 @@ EOT
 
 cat <<EOT | sudo tee -a /etc/profile.d/lxd.sh > /dev/null
 export LXD_HOME=${LXD_HOME}
-export PATH=$PATH{}:${LXD_HOME}/bin
+export PATH=${PATH}:${LXD_HOME}/bin
 EOT
 
 
