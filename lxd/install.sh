@@ -24,7 +24,7 @@ sudo mkdir -p ${LXD_HOME}
 
 sudo cp -r ${CURDIR}/bin ${LXD_HOME}/
 sudo cp -r ${CURDIR}/include ${LXD_HOME}/
-sudo cp -r ${CURDIR}/conf ${LXD_HOME}/
+sudo cp -r ${CURDIR}/conf ${LXD_SNAP_COMMON}/
 
 sudo cp -r ${CURDIR}/container /var/lxd/
 sudo chown lxd:lxd /var/lxd/ -R
@@ -32,11 +32,10 @@ sudo chmod g+rwx /var/lxd/ -R
 
 
 # Init lxd.
-cat ${LXD_HOME}/conf/init.yml | sudo lxd init --preseed
+cat ${LXD_SNAP_COMMON}/conf/init.yml | sudo lxd init --preseed
 
 
 # Setting dnsmasq conf.
-sudo ln -s ${LXD_HOME}/conf ${LXD_SNAP_COMMON}/conf
 sudo lxc network set lxdbr0 raw.dnsmasq "addn-hosts=${LXD_SNAP_COMMON}/conf/lxd_hosts"
 
 
@@ -80,3 +79,5 @@ EOT
 echo "Please restart system!!"
 
 popd
+
+usermod -aG lxd ${USER}
