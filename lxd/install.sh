@@ -36,7 +36,7 @@ cat ${LXD_HOME}/conf/init.yml | sudo lxd init --preseed
 
 
 # Setting dnsmasq conf.
-ln -s ${LXD_HOME}/conf ${LXD_SNAP_COMMON}/conf
+sudo ln -s ${LXD_HOME}/conf ${LXD_SNAP_COMMON}/conf
 sudo lxc network set lxdbr0 raw.dnsmasq "addn-hosts=${LXD_SNAP_COMMON}/conf/lxd_hosts"
 
 
