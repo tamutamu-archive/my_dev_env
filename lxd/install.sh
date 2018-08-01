@@ -80,4 +80,5 @@ echo "Please restart system!!"
 
 popd
 
-usermod -aG lxd ${USER}
+
+sudo usermod -aG lxd ${USER}
