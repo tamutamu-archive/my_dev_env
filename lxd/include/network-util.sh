@@ -1,5 +1,5 @@
 ### Const value.
-port_rule_tmpl="ipv4 nat PREROUTING 0 -i #DEF_IF# -p tcp -m tcp --dport #SPORT# -j DNAT --to-destination #CT_IP#:#DPORT#"
+port_rule_tmpl="-t nat #ACTION# PREROUTING -m #PROTO# -p #PROTO# -i #DEF_IF# --dport #SPORT# -j DNAT --to-destination #CT_IP#:#DPORT# -m comment --comment 'lxt_managed' "
 DHCP_LEASE=${LXD_SNAP_ROOT}/common/lxd/networks/lxdbr0/dnsmasq.leases
 
 
@@ -15,11 +15,11 @@ get_IP(){
 
 ### Add/Remove portforward.
 add_portfd() {
-  add_remove_portfd "add" $1 $2
+  add_remove_portfd "-A" $1 $2
 }
 
 remove_portfd() {
-  add_remove_portfd "remove" $1 $2
+  add_remove_portfd "-D" $1 $2
 }
 
 all_remove_portfd() {
@@ -35,16 +35,16 @@ add_remove_portfd(){
 
   local action=$1
   local ct_ip=$2
-  local sport=$(echo $3 | cut -d ":" -f 1)
-  local dport=$(echo $3 | cut -d ":" -f 2)
+  local proto=$(echo $3 | cut -d ":" -f 1)
+  local sport=$(echo $3 | cut -d ":" -f 2)
+  local dport=$(echo $3 | cut -d ":" -f 3)
 
   local default_if=$(route | awk '{if($1 == "default") print $8;}')
 
-  local portfd_rule=$(echo ${port_rule_tmpl} | \
-                  sed -e "s@#DEF_IF#@${default_if}@g" -e "s@#SPORT#@${sport}@g" -e "s@#DPORT#@${dport}@g" -e "s@#CT_IP#@${ct_ip}@g")
+  local portfd_cmd=$(echo ${port_rule_tmpl} | \
+     sed -e "s@#ACTION#@${action}@g" -e "s@#DEF_IF#@${default_if}@g" -e "s@#PROTO#@${proto}@g" -e "s@#SPORT#@${sport}@g" -e "s@#DPORT#@${dport}@g" -e "s@#CT_IP#@${ct_ip}@g")
 
-  sudo firewall-cmd --direct --${action}-rule ${portfd_rule} -m comment --comment "my_lxd_portforward" > /dev/null
-  sudo firewall-cmd --permanent --direct --${action}-rule ${portfd_rule} -m comment --comment "my_lxd_portforward" > /dev/null
+  sudo iptables ${portfd_cmd}
 
   if [ ${1} == "add" ]; then
     sudo bash -c "cat ./conf/machine.json | jq '.machine.\"port-forward\" += [\"${3}\"]' > ./conf/machine.json.swp && mv ./conf/machine.json{.swp,}"
