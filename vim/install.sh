@@ -70,5 +70,7 @@ git clone https://github.com/Shougo/vimshell.vim.git
 git clone https://github.com/Shougo/vimfiler.vim.git
 git clone https://github.com/regedarek/ZoomWin.git
 git clone https://github.com/Shougo/neocomplete.vim.git
+git clone https://github.com/tpope/vim-surround.git
+
  
 popd
