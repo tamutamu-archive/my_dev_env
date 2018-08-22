@@ -20,8 +20,7 @@ sudo lxc exec ${CT_NAME} -- bash -lc \
 
 ### yum update, system restart.
 sudo lxc exec ${CT_NAME} -- bash -lc \
-  "sed -i -e 's/archive.ubuntu.com\|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list && \
-   apt clean && apt -y update && apt -y upgrade"
+   "apt clean && apt -y update && apt -y upgrade"
 sudo lxc restart ${CT_NAME}
 
 # TODO wait network ready..
