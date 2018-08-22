@@ -9,4 +9,5 @@ syntax enable
 "Include .vim.d 
 runtime! .vim.d/*.vim
 
-set clipboard=unnamed,autoselect
+set clipboard&
+set clipboard^=unnamedplus
