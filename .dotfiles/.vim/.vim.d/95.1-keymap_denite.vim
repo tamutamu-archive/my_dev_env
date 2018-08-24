@@ -16,7 +16,8 @@ nnoremap <silent> [denite]p :<C-u>Denite -resume -buffer-name=search-buffer-deni
 nnoremap <silent> [denite]b :Denite buffer<CR>
 "nnoremap <silent> [denite]c :Denite changes<CR>
 nnoremap <silent> [denite]f :Denite file_rec<CR>
-"nnoremap <silent> [denite]r :<C-u>Denite -resume<CR>
+nnoremap <silent> [denite]r :<C-u>Denite -resume<CR>
+nnoremap <silent> [denite]R :<C-u>Denite register<CR>
 "nnoremap <silent> [denite]h :Denite help<CR>
 "nnoremap <silent> [denite]h :Denite help<CR>
 "nnoremap <silent> [denite]l :Denite line<CR>
