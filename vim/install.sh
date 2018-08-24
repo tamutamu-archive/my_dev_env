@@ -63,8 +63,17 @@ ln -s ${CURDIR}/../.dotfiles/.vim ~/.vim
 mkdir -p ~/.vim/pack/base/start
 
 pushd ~/.vim/pack/base/start
+
+# Denite & Unite for vimflier.
 git clone https://github.com/Shougo/unite.vim.git
+git clone https://github.com/Shougo/denite.nvim.git
 git clone https://github.com/Shougo/neomru.vim.git
+
+# Deoplete & Vimfiler
+git clone https://github.com/roxma/nvim-yarp
+git clone https://github.com/roxma/vim-hug-neovim-rpc
+git clone https://github.com/Shougo/deoplete.nvim.git
+git clone https://github.com/Shougo/vimfiler.vim.git
 
 git clone https://github.com/Shougo/vimproc.vim.git
 pushd vimproc.vim
@@ -73,8 +82,6 @@ popd
 
 git clone https://github.com/Shougo/vimshell.vim.git
 git clone https://github.com/regedarek/ZoomWin.git
-git clone https://github.com/Shougo/deoplete.nvim.git
 git clone https://github.com/tpope/vim-surround.git
-git clone https://github.com/Shougo/denite.nvim.git
  
 popd

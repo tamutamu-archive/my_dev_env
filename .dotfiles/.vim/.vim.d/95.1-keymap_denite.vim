@@ -21,5 +21,5 @@ nnoremap <silent> [denite]f :Denite file_rec<CR>
 "nnoremap <silent> [denite]h :Denite help<CR>
 "nnoremap <silent> [denite]l :Denite line<CR>
 "nnoremap <silent> [denite]t :Denite tag<CR>
-"nnoremap <silent> [denite]m :Denite file_mru<CR>
+nnoremap <silent> [denite]m :Denite file_mru<CR>
 "nnoremap <silent> [denite]u :Denite menu<CR>
