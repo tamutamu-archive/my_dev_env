@@ -54,9 +54,9 @@ popd
 
 
 ### Settings vim.
-ln -s ${CURDIR}/../.dotfiles/.vimrc ~/.vimrc
-ln -s ${CURDIR}/../.dotfiles/.gvimrc ~/.gvimrc
-ln -s ${CURDIR}/../.dotfiles/.vim ~/.vim
+ln -fs ${CURDIR}/../.dotfiles/.vimrc ~/.vimrc
+ln -fs ${CURDIR}/../.dotfiles/.gvimrc ~/.gvimrc
+ln -fs ${CURDIR}/../.dotfiles/.vim ~/.vim
 
 
 
