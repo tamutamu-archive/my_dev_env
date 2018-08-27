@@ -14,7 +14,7 @@ sudo apt -y autoclean
 
 
 # Install lxd.
-sudo apt -y install zfsutils-linux jq dnsmasq-utils firewalld
+sudo apt -y install zfsutils-linux jq dnsmasq-utils
 sudo snap install lxd --channel=3.0
 sudo lxd waitready
 
