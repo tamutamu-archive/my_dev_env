@@ -21,3 +21,7 @@ elif [ "${MODE}" == "base" ]; then
 fi
 
 popd
+
+
+apt autoremove
+apt clean
