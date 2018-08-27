@@ -5,6 +5,7 @@ CURDIR=$(cd $(dirname $0); pwd)
 cd ${CURDIR}
 
 set +eu
+pyenv virtualenv 3.6.4 vim
 pyenv shell vim
 set -eu
 
