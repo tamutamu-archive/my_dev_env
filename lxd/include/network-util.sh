@@ -1,6 +1,6 @@
 ### Const value.
 port_rule_tmpl="ipv4 nat PREROUTING 0 -i #DEF_IF# -p tcp -m tcp --dport #SPORT# -j DNAT --to-destination #CT_IP#:#DPORT#"
-DHCP_LEASE=${LXD_COMMON}/lxd/networks/lxdbr0/dnsmasq.leases
+DHCP_LEASE=${LXD_SNAP_ROOT}/common/lxd/networks/lxdbr0/dnsmasq.leases
 
 
 ### Get container IP.
@@ -27,7 +27,7 @@ all_remove_portfd() {
   while read portfd
   do
     add_remove_portfd "remove" $1 ${portfd}
-  done < <(cat .conf/machine.json | jq -r 'select(.machine."port-forward" !=null) | .machine."port-forward" | .[]')
+  done < <(cat conf/machine.json | jq -r 'select(.machine."port-forward" !=null) | .machine."port-forward" | .[]')
 
 }
 
@@ -47,9 +47,9 @@ add_remove_portfd(){
   sudo firewall-cmd --permanent --direct --${action}-rule ${portfd_rule} -m comment --comment "my_lxd_portforward" > /dev/null
 
   if [ ${1} == "add" ]; then
-    sudo bash -c "cat ./.conf/machine.json | jq '.machine.\"port-forward\" += [\"${3}\"]' > ./.conf/machine.json.swp && mv ./.conf/machine.json{.swp,}"
+    sudo bash -c "cat ./conf/machine.json | jq '.machine.\"port-forward\" += [\"${3}\"]' > ./conf/machine.json.swp && mv ./conf/machine.json{.swp,}"
   elif [ ${1} == "remove" ]; then
-    sudo bash -c "cat ./.conf/machine.json | jq '.machine.\"port-forward\" -= [\"${3}\"]' > ./.conf/machine.json.swp && mv ./.conf/machine.json{.swp,}"
+    sudo bash -c "cat ./conf/machine.json | jq '.machine.\"port-forward\" -= [\"${3}\"]' > ./conf/machine.json.swp && mv ./conf/machine.json{.swp,}"
   fi
 
 }
@@ -68,5 +68,5 @@ release_dhcp(){
   }
   ' ${DHCP_LEASE}
 
-  sudo kill -HUP `cat ${LXD_COMMON}/lxd/networks/lxdbr0/dnsmasq.pid`
+  sudo kill -HUP `cat ${LXD_SNAP_ROOT}/common/lxd/networks/lxdbr0/dnsmasq.pid`
 }

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Kindle
+GenericName=Kindle for PC
+Comment=Ebook reader
+Exec=ssh -X ubuntu@kindle.local QT_IM_MODULE=fcitx XMODIFIERS=@im=fcitx wine ".wine/drive_c/Program\ Files\ \(x86\)/Amazon/Kindle/Kindle.exe"
+Terminal=false
+Type=Application
+Icon=kindle
+Categories=Office;Viewer;
+X-Desktop-File-Install-Version=0.22

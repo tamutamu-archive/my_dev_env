@@ -1,7 +1,11 @@
-#!/bin/bash
+#!/bin/bash -eu
 
 CURDIR=$(cd $(dirname $0); pwd)
 pushd ${CURDIR} > /dev/null
+
+# Include global.conf
+. ${LXD_HOME}/include/global.conf
+
 
 command=$1
 shift

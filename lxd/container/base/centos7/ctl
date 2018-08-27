@@ -1,7 +1,6 @@
 #!/bin/bash
 
-export LXD_COMMON='/var/snap/lxd/common'
-. ${LXD_COMMON}/_conf/global.conf
+. ${LXD_HOME}/include/global.conf
 
 
 IMG_NAME="images:centos/7/amd64"
@@ -13,7 +12,7 @@ command=$1
 shift
 
 ### my command
-case "$command" in
+case "${command}" in
   #cmd)
   #    do command...
   #    exit 0
@@ -22,6 +21,6 @@ esac
 
 
 ### common command
-. ${LXD_COMMON}/_common/common-launcher.sh
+. ${LXD_HOME}/include/common-launcher.sh
 
 popd > /dev/null

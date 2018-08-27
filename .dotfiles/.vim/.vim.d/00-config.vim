@@ -1,4 +1,10 @@
 " setting
+"
+"python3 path
+"let $PATH = "~/.pyenv/shims:".$PATH
+let PYTHONPATH="/home/$USER/.pyenv/versions/vim/lib/python3.6/site-packages"
+
+
 "文字コードをUFT-8に設定
 scriptencoding utf-8
 set encoding=utf-8

@@ -3,7 +3,7 @@
 
 . ./conf/var.conf
 
-. ${LXD_COMMON}/_common/ssh-util.sh
+. ${LXD_HOME}/include/ssh-util.sh
 
 
 CURDIR=$(cd $(dirname $0); pwd)
@@ -67,7 +67,7 @@ sudo lxc exec ${ct_name} -- bash -lc "timedatectl set-timezone Asia/Tokyo"
 sudo lxc exec ${ct_name} -- bash -lc \
     'yum -y install openssh-server && systemctl enable sshd && systemctl start sshd'
 sudo lxc exec ${ct_name} -- bash -lc \
-    'sed -ie "s/^#\(UseDNS\).*/\1 no/" /etc/ssh/sshd_config && \
+    'sed -i -e "s/^#\(UseDNS\).*/\1 no/" -e "s/^\(GSSAPIAuthentication\).*/\1 no/" /etc/ssh/sshd_config && \
        systemctl restart sshd && systemctl enable sshd'
 
 
