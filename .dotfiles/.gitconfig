@@ -5,7 +5,7 @@
 	autocrlf = False
 	quotepath = false
 	editor = vim -c \"set encoding=utf8\"
-  filemode = true
+  filemode = false
 	excludesfile = /home/tamutamu/.gitignore_global
 [color]
   ui = auto

@@ -87,3 +87,6 @@
 
 "cd /opt/scripts/pyautogui/scripts/eclipse; python select_editor.py"
   control+shift+k
+
+"cd /opt/scripts/pyautogui/scripts/eclipse; python select_pkgexp.py; python do_git_sync.py"
+  control+shift+e
