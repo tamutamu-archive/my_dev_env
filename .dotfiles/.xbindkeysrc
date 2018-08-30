@@ -76,7 +76,7 @@
 "xbindkeys_show" 
   control+shift + q
 
-"rofi -show run"
+"rofi -show combi"
   control+0
 
 "terminator -e 'ranger'"
