@@ -5,6 +5,7 @@ CURDIR=$(cd $(dirname $0); pwd)
 cd ${CURDIR}
 
 set +eu
+. ~/.bash.d/100-pyenv.sh
 pyenv virtualenv 3.6.4 vim
 pyenv shell vim
 set -eu
@@ -54,9 +55,9 @@ popd
 
 
 ### Settings vim.
-ln -fs ${CURDIR}/../.dotfiles/.vimrc ~/.vimrc
-ln -fs ${CURDIR}/../.dotfiles/.gvimrc ~/.gvimrc
-ln -fs ${CURDIR}/../.dotfiles/.vim ~/.vim
+#ln -fs ${CURDIR}/../.dotfiles/.vimrc ~/.vimrc
+#ln -fs ${CURDIR}/../.dotfiles/.gvimrc ~/.gvimrc
+#ln -fs ${CURDIR}/../.dotfiles/.vim ~/.vim
 
 
 
