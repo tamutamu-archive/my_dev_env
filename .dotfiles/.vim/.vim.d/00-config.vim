@@ -1,5 +1,6 @@
 " setting
 "
+"
 "python3 path
 "let $PATH = "~/.pyenv/shims:".$PATH
 let $PYTHONPATH="/home/" . $USER . "/.pyenv/versions/vim/lib/python3.6/site-packages"
@@ -106,3 +107,8 @@ function! s:DiffWithSaved()
 endfunction
 
 nnoremap <silent> <C-d>f :<C-u>call <SID>DiffWithSaved()<CR>
+
+
+"inoremap <silent><Esc> call system('fcitx-remote -c > /dev/null 2>&1')<CR>
+"noremap <Esc> :silent call system('fcitx-remote -c > /dev/null 2>&1')<CR>
+"imap <silent><C-c> <Esc>
