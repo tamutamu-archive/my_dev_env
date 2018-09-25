@@ -25,6 +25,7 @@ sudo mkdir -p ${LXD_HOME}
 sudo cp -r ${CURDIR}/bin ${LXD_HOME}/
 sudo cp -r ${CURDIR}/include ${LXD_HOME}/
 sudo cp -r ${CURDIR}/conf ${LXD_SNAP_COMMON}/
+sudo cp -r ${CURDIR}/profile.d/lxd.sh /etc/profile.d/
 
 sudo cp -r ${CURDIR}/container /var/lxd/
 sudo chown lxd:lxd /var/lxd/ -R
@@ -77,6 +78,7 @@ EOT
 
 
 echo "Please restart system!!"
+echo "echo 'nameserver 10.73.233.1' >> /etc/resolvconf/resolv.conf.d/head"
 
 popd
 
